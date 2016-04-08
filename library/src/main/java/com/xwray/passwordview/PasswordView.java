@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -19,7 +20,7 @@ import android.widget.EditText;
  * It uses the right drawable for the visibility indicator.  If you try to use it yourself, you
  * will have a bad time.
  */
-public class PasswordView extends EditText {
+public class PasswordView extends AppCompatEditText {
 
     private Drawable eye;
     private Drawable eyeWithStrike;
@@ -41,11 +42,6 @@ public class PasswordView extends EditText {
 
     public PasswordView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) public PasswordView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs);
     }
 
