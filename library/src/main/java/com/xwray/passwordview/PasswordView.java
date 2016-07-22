@@ -1,17 +1,16 @@
 package com.xwray.passwordview;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.DrawableRes;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.EditText;
 
 /**
  * An EditText implementing the material design guidelines for password input:
@@ -60,10 +59,24 @@ public class PasswordView extends AppCompatEditText {
 
         // Make sure to mutate so that if there are multiple password fields, they can have
         // different visibilities.
-        eye = ContextCompat.getDrawable(getContext(), R.drawable.ic_eye).mutate();
-        eyeWithStrike = ContextCompat.getDrawable(getContext(), R.drawable.ic_eye_strike).mutate();
+        eye = getVectorDrawableWithIntrinsicBounds(getContext(), R.drawable.ic_eye).mutate();
+        eyeWithStrike = getVectorDrawableWithIntrinsicBounds(getContext(), R.drawable.ic_eye_strike).mutate();
         eyeWithStrike.setAlpha(VISIBILITY_ENABLED);
         setup();
+    }
+
+    private Drawable getVectorDrawable(Context context, @DrawableRes int drawableResId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return context.getDrawable(drawableResId);
+        } else {
+            return VectorDrawableCompat.create(context.getResources(), drawableResId, context.getTheme());
+        }
+    }
+
+    private Drawable getVectorDrawableWithIntrinsicBounds(Context context, @DrawableRes int drawableResId) {
+        Drawable drawable = getVectorDrawable(context, drawableResId);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        return drawable;
     }
 
     protected void setup() {
