@@ -20,7 +20,7 @@ import android.view.MotionEvent;
 /**
  * An EditText implementing the material design guidelines for password input:
  * https://www.google.com/design/spec/components/text-fields.html#text-fields-password-input
- * <p/>
+ *
  * It uses the right drawable for the visibility indicator.  If you try to use it yourself, you
  * will have a bad time.
  */

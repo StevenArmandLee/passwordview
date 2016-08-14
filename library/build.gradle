@@ -32,7 +32,7 @@ publish {
     userOrg = 'lisawray'
     groupId = 'com.xwray'
     artifactId = 'passwordview'
-    publishVersion = '0.1'
+    publishVersion = '1.0'
     desc = 'Android material design password view'
     website = 'https://github.com/lisawray/passwordview.git'
 }
