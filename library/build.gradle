@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 24
@@ -17,6 +18,25 @@ android {
         }
     }
 }
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.3.4'
+    }
+}
+
+publish {
+    userOrg = 'lisawray'
+    groupId = 'com.xwray'
+    artifactId = 'passwordview'
+    publishVersion = '1.0'
+    desc = 'Android material design password view'
+    website = 'https://github.com/lisawray/passwordview.git'
+}
+
 
 dependencies {
     compile 'com.android.support:support-v4:24.1.1'
