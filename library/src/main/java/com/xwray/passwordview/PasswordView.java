@@ -5,11 +5,16 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 
 /**
@@ -21,10 +26,14 @@ import android.view.MotionEvent;
  */
 public class PasswordView extends AppCompatEditText {
 
+    private final static float ALPHA_ENABLED_DARK = .54f;
+    private final static float ALPHA_DISABLED_DARK = .38f;
+    private final static float ALPHA_ENABLED_LIGHT = 1f;
+    private final static float ALPHA_DISABLED_LIGHT = .5f;
     private Drawable eye;
     private Drawable eyeWithStrike;
-    private final static int VISIBILITY_ENABLED = (int) (255 * .54f); // 54%
-    private final static int VISIBLITY_DISABLED = (int) (255 * .38f); // 38%
+    private int alphaEnabled;
+    private int alphaDisabled;
     private boolean visible = false;
     private boolean useStrikeThrough = false;
     private Typeface typeface;
@@ -58,12 +67,35 @@ public class PasswordView extends AppCompatEditText {
             }
         }
 
+        int enabledColor = resolveAttr(android.R.attr.textColorPrimary);
+        boolean isIconDark = isDark(enabledColor);
+        alphaEnabled = (int) (255 * (isIconDark ? ALPHA_ENABLED_DARK : ALPHA_ENABLED_LIGHT));
+        alphaDisabled = (int) (255 * (isIconDark ? ALPHA_DISABLED_DARK : ALPHA_DISABLED_LIGHT));
+
+        eye = getToggleDrawable(getContext(), R.drawable.ic_eye, enabledColor);
+        eyeWithStrike = getToggleDrawable(getContext(), R.drawable.ic_eye_strike, enabledColor);
+        eyeWithStrike.setAlpha(alphaEnabled);
+        setup();
+    }
+
+    private @ColorInt int resolveAttr(@AttrRes int attrRes) {
+        TypedValue ta = new TypedValue();
+        getContext().getTheme().resolveAttribute(attrRes, ta, true);
+        return ContextCompat.getColor(getContext(), ta.resourceId);
+    }
+
+    private Drawable getToggleDrawable(Context context, @DrawableRes int drawableResId, @ColorInt int tint) {
         // Make sure to mutate so that if there are multiple password fields, they can have
         // different visibilities.
-        eye = getVectorDrawableWithIntrinsicBounds(getContext(), R.drawable.ic_eye).mutate();
-        eyeWithStrike = getVectorDrawableWithIntrinsicBounds(getContext(), R.drawable.ic_eye_strike).mutate();
-        eyeWithStrike.setAlpha(VISIBILITY_ENABLED);
-        setup();
+        Drawable drawable = getVectorDrawableWithIntrinsicBounds(context, drawableResId).mutate();
+        DrawableCompat.setTint(drawable, tint);
+        return drawable;
+    }
+
+    private Drawable getVectorDrawableWithIntrinsicBounds(Context context, @DrawableRes int drawableResId) {
+        Drawable drawable = getVectorDrawable(context, drawableResId);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        return drawable;
     }
 
     private Drawable getVectorDrawable(Context context, @DrawableRes int drawableResId) {
@@ -74,12 +106,6 @@ public class PasswordView extends AppCompatEditText {
         }
     }
 
-    private Drawable getVectorDrawableWithIntrinsicBounds(Context context, @DrawableRes int drawableResId) {
-        Drawable drawable = getVectorDrawable(context, drawableResId);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        return drawable;
-    }
-
     protected void setup() {
         int start = getSelectionStart();
         int end = getSelectionEnd();
@@ -88,7 +114,7 @@ public class PasswordView extends AppCompatEditText {
         Drawable drawable = useStrikeThrough && !visible ? eyeWithStrike : eye;
         Drawable[] drawables = getCompoundDrawables();
         setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1], drawable, drawables[3]);
-        eye.setAlpha(visible && !useStrikeThrough ? VISIBILITY_ENABLED : VISIBLITY_DISABLED);
+        eye.setAlpha(visible && !useStrikeThrough ? alphaEnabled : alphaDisabled);
     }
 
     @Override public boolean onTouchEvent(MotionEvent event) {
@@ -124,5 +150,15 @@ public class PasswordView extends AppCompatEditText {
 
     public void setUseStrikeThrough(boolean useStrikeThrough) {
         this.useStrikeThrough = useStrikeThrough;
+    }
+
+    private static boolean isDark(float[] hsl) {
+        return hsl[2] < 0.5f;
+    }
+    
+    public static boolean isDark(@ColorInt int color) {
+        float[] hsl = new float[3];
+        android.support.v4.graphics.ColorUtils.colorToHSL(color, hsl);
+        return isDark(hsl);
     }
 }
