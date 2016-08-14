@@ -28,6 +28,7 @@ public class PasswordView extends AppCompatEditText {
     private boolean visible = false;
     private boolean useStrikeThrough = false;
     private Typeface typeface;
+    private boolean drawableClick;
 
     public PasswordView(Context context) {
         super(context);
@@ -93,13 +94,23 @@ public class PasswordView extends AppCompatEditText {
     @Override public boolean onTouchEvent(MotionEvent event) {
         int drawableRightX = getWidth() - getPaddingRight();
         int drawableLeftX = drawableRightX - getCompoundDrawables()[2].getBounds().width();
+        boolean eyeClicked = event.getX() >= drawableLeftX && event.getX() <= drawableRightX;
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN
-                && event.getX() >= drawableLeftX && event.getX() <= drawableRightX) {
-            visible = !visible;
-            setup();
-            invalidate();
+        if (event.getAction() == MotionEvent.ACTION_DOWN && eyeClicked) {
+            drawableClick = true;
             return true;
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            if (eyeClicked && drawableClick) {
+                drawableClick = false;
+                visible = !visible;
+                setup();
+                invalidate();
+                return true;
+            } else {
+                drawableClick = false;
+            }
         }
 
         return super.onTouchEvent(event);
