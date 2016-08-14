@@ -80,7 +80,10 @@ public class PasswordView extends AppCompatEditText {
     }
 
     protected void setup() {
+        int start = getSelectionStart();
+        int end = getSelectionEnd();
         setInputType(InputType.TYPE_CLASS_TEXT | (visible ? InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD : InputType.TYPE_TEXT_VARIATION_PASSWORD));
+        setSelection(start, end);
         Drawable drawable = useStrikeThrough && !visible ? eyeWithStrike : eye;
         Drawable[] drawables = getCompoundDrawables();
         setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1], drawable, drawables[3]);
@@ -88,7 +91,7 @@ public class PasswordView extends AppCompatEditText {
     }
 
     @Override public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP
+        if (event.getAction() == MotionEvent.ACTION_DOWN
                 && event.getX() >= (getRight() - getCompoundDrawables()[2].getBounds().width())) {
             visible = !visible;
             setup();
