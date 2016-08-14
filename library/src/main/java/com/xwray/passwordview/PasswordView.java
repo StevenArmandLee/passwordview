@@ -148,6 +148,14 @@ public class PasswordView extends AppCompatEditText {
         setTypeface(typeface);
     }
 
+    @Override @public void setError(CharSequence error) {
+        throw new RuntimeException("Please use TextInputLayout.setError() instead!");
+    }
+
+    @Override public void setError(CharSequence error, Drawable icon) {
+        throw new RuntimeException("Please use TextInputLayout.setError() instead!");
+    }
+
     public void setUseStrikeThrough(boolean useStrikeThrough) {
         this.useStrikeThrough = useStrikeThrough;
     }
@@ -155,7 +163,7 @@ public class PasswordView extends AppCompatEditText {
     private static boolean isDark(float[] hsl) {
         return hsl[2] < 0.5f;
     }
-    
+
     public static boolean isDark(@ColorInt int color) {
         float[] hsl = new float[3];
         android.support.v4.graphics.ColorUtils.colorToHSL(color, hsl);
