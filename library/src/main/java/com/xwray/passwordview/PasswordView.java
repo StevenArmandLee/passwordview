@@ -91,8 +91,11 @@ public class PasswordView extends AppCompatEditText {
     }
 
     @Override public boolean onTouchEvent(MotionEvent event) {
+        int drawableRightX = getWidth() - getPaddingRight();
+        int drawableLeftX = drawableRightX - getCompoundDrawables()[2].getBounds().width();
+
         if (event.getAction() == MotionEvent.ACTION_DOWN
-                && event.getX() >= (getRight() - getCompoundDrawables()[2].getBounds().width())) {
+                && event.getX() >= drawableLeftX && event.getX() <= drawableRightX) {
             visible = !visible;
             setup();
             invalidate();
