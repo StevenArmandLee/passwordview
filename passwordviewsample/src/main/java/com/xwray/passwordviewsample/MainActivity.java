@@ -1,16 +1,11 @@
 package com.xwray.passwordviewsample;
 
-import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,17 +41,6 @@ public class MainActivity extends AppCompatActivity {
     @Override public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
-
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = getTheme();
-        theme.resolveAttribute(R.attr.colorControlNormal, typedValue, true);
-        int color = ContextCompat.getColor(this, typedValue.resourceId);
-
-        MenuItem themeItem = menu.findItem(R.id.theme);
-        Drawable drawable = DrawableCompat.wrap(themeItem.getIcon());
-        DrawableCompat.setTint(drawable, color);
-        themeItem.setIcon(drawable);
-
         return true;
     }
 
