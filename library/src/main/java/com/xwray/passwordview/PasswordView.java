@@ -148,7 +148,7 @@ public class PasswordView extends AppCompatEditText {
         setTypeface(typeface);
     }
 
-    @Override @public void setError(CharSequence error) {
+    @Override public void setError(CharSequence error) {
         throw new RuntimeException("Please use TextInputLayout.setError() instead!");
     }
 
