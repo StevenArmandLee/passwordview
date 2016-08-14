@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.AppCompatEditText;
@@ -88,6 +89,7 @@ public class PasswordView extends AppCompatEditText {
         Drawable drawable = useStrikeThrough && !visible ? eyeWithStrike : eye;
         Drawable[] drawables = getCompoundDrawables();
         setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1], drawable, drawables[3]);
+        eye.setT
         eye.setAlpha(visible && !useStrikeThrough ? VISIBILITY_ENABLED : VISIBLITY_DISABLED);
     }
 
@@ -124,5 +126,18 @@ public class PasswordView extends AppCompatEditText {
 
     public void setUseStrikeThrough(boolean useStrikeThrough) {
         this.useStrikeThrough = useStrikeThrough;
+    }
+
+    private static boolean isDark(float[] hsl) { // @Size(3)
+        return hsl[2] < 0.5f;
+    }
+
+    /**
+     * Convert to HSL & check that the lightness value
+     */
+    public static boolean isDark(@ColorInt int color) {
+        float[] hsl = new float[3];
+        android.support.v4.graphics.ColorUtils.colorToHSL(color, hsl);
+        return isDark(hsl);
     }
 }
