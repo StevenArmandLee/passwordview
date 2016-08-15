@@ -8,7 +8,7 @@
       android:layout_height="wrap_content"
       android:hint="@string/password_hint" />
 
-<img src="http://i.imgur.com/k6McHxN.png" width="400px" /><img src="http://i.imgur.com/8BYWHux.png" width="400px" />
+<img src="http://i.imgur.com/k6McHxN.png" width="400px" /><img src="http://i.imgur.com/oO3jBPP.png" width="400px" />
 
 ### Toggle password visibility
 Touch the "eye" icon to toggle between traditional and visible password states.  
