@@ -1,9 +1,9 @@
-##8/17/2016: As of about an hour ago, this library is deprecated!  
+## 8/17/2016: As of about an hour ago, this library is deprecated!  
 Support for password visibility is now included in the 
 [Design Support Library](https://developer.android.com/topic/libraries/support-library/revisions.html) in [TextInputLayout](https://developer.android.com/reference/android/support/design/widget/TextInputLayout.html). :tada:
 
 
-#PasswordView [deprecated]
+# PasswordView [deprecated]
 
 :eyes: "All eyes, yeah I see 'em" — [Yo Gotti, Down in the DM](https://genius.com/Yo-gotti-down-in-the-dm-lyrics)
 
