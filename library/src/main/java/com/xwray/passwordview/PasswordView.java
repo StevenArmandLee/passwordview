@@ -26,10 +26,10 @@ import android.view.MotionEvent;
  */
 public class PasswordView extends AppCompatEditText {
 
-    private final static float ALPHA_ENABLED_DARK = .54f;
-    private final static float ALPHA_DISABLED_DARK = .38f;
+    private final static float ALPHA_ENABLED_DARK = 1f;
+    private final static float ALPHA_DISABLED_DARK = 1f;
     private final static float ALPHA_ENABLED_LIGHT = 1f;
-    private final static float ALPHA_DISABLED_LIGHT = .5f;
+    private final static float ALPHA_DISABLED_LIGHT = 1f;
     private Drawable eye;
     private Drawable eyeWithStrike;
     private int alphaEnabled;
